@@ -76,7 +76,6 @@ antsRegistration --dimensionality 3 \
 --shrink-factors 3x1 \
 --verbose
 fi
-done
 
 #ffile4=${fdirz[0]}${fnr[0]}'-2T1.nii.gz'
 #if ( [ ! -f $ffile4 ] ); then

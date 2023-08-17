@@ -1,7 +1,7 @@
 #! /bin/bash
 
 ## Who is this?
-sub='V10141'
+sub='V9934'
 ses='data'
 rdir='/Fridge/users/wouter/Laminar/VTS/'
 sdir=$rdir$sub'/'$ses'/'
@@ -30,8 +30,10 @@ tudirz=$fdir$tu'/'
 tufile0=$tudirz$tu'.nii.gz'
 tufile=$tudirz$tu'-deo.nii.gz'
 
+if ( [ ! -f $tufile ] ); then
 cp $tufile0 $tufile
 3drefit -deoblique $tufile
+fi
 
 tufile2=$tudirz$tu'-mc.nii.gz'
 if ( [ ! -f $tufile2 ] ); then
@@ -104,14 +106,13 @@ antsRegistration --dimensionality 3 \
 --float \
 --use-histogram-matching 1 \
 --transform Rigid[0.1] \
---metric MI[ ${ffile3[$i]},$tufile3, 1, 32, Regular, 0.5 ] \
---convergence [ 1000x500x200,1e-6,12 ] \
---smoothing-sigmas 2x1x0mm \
---shrink-factors 3x2x1 \
+--metric CC[${ffile3[$i]},$tufile3, 1, 3, Regular, 0.25 ] \
+--convergence [ 1000x800x500,1e-6,10 ] \
+--smoothing-sigmas 3x2x1vox \
+--shrink-factors 4x2x1 \
 --verbose
 fi
 done
-
 
 ## Calculating EPI phase acquisition distortion warp (or EPAD warp, because that's less letters)
 ffile4=()
